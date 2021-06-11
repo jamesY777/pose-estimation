@@ -25,18 +25,28 @@ class poseDetector():
          
         #Process the Pose from the image (video capture), the results are tracking the Pose from video capture
         #Make result a var with in the self, so it can be used again.
-        results = self.pose.process(imgRGB)
+        self.results = self.pose.process(imgRGB)
         
-        if results.pose_landmarks: #If hands detected
+        if self.results.pose_landmarks: #If hands detected
             if draw:
-                self.mpDraw.draw_landmarks(img, results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
-                for id, lm in enumerate(results.pose_landmarks.landmark):
+                self.mpDraw.draw_landmarks(img, self.results.pose_landmarks, self.mpPose.POSE_CONNECTIONS)
+                for id, lm in enumerate(self.results.pose_landmarks.landmark):
                     h, w, c = img.shape #Get the height, width of the image capture
                     cx, cy = int(lm.x*w), int(lm.y*h) #Calculate the normolized position to pixel
                     cv2.circle(img, (cx,cy), 5, (255,0,0), cv2.FILLED)
                     print(id, cx, cy)
         return img
-    def 
+
+    def findPosition(self, img, draw = True):
+        lmList = []
+        if self.results.pose_landmarks:
+            for id, lm in enumerate(self.results.pose_landmarks.landmark):
+                h, w, c = img.shape #Get the height, width of the image capture
+                cx, cy = int(lm.x*w), int(lm.y*h) #Calculate the normolized position to pixel
+                #if draw: cv2.circle(img, (cx,cy), 5, (255,0,0), cv2.FILLED) #This can highlight the certain dots on the body
+                lmList.append([id,cx,cy]) #Append the dots of the body position in to the list.
+        return lmList
+
 # A main() function that can be run itself.
 def main():
 
@@ -51,6 +61,11 @@ def main():
         sucess, img = cap.read()
 
         img = detector.findPose(img)
+        lmList = detector.findPosition(img)
+        
+        if len(lmList) != 0:
+            print(lmList)
+        
         cTime = time.time()
 
         fps = 1/(cTime-pTime)
