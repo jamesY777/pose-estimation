@@ -2,7 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 
-cap = cv2.VideoCapture(0) #REad the video'Videos/video2.mp4'
+cap = cv2.VideoCapture(0) #Raad the video'Videos/video2.mp4'
 pTime = 0
 
 mpPose = mp.solutions.pose
