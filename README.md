@@ -12,6 +12,8 @@ Use the *PoseEstimationMin.py*. The script will use the first camera device to t
 ### PoseModule
 *PoseModule.py* defines the main class that can be reused in other applications. The class name is *poseDetector*, it contains a few basic methods. This script can also be called itself which will perform the same function as *PoseEstimationMin.py*.
 
+To load the module and use the class, check the *testmodule.py*
+
 ### Ai Traniner
 *AiTrainer.py* is a simple application that calculte the RIGHT_ARM angle based on captured POSE.
 
